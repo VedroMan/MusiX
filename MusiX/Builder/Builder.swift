@@ -5,4 +5,16 @@
 //  Created by Timofey on 10.07.24.
 //
 
-import Foundation
+import UIKit
+
+protocol BuilderProtocol {
+    static func createTabBarViewController() -> UIViewController
+    
+}
+
+class Builder: BuilderProtocol {
+    static func createTabBarViewController() -> UIViewController {
+        let tabBarView = TabBarViewController()
+        return tabBarView
+    }
+}

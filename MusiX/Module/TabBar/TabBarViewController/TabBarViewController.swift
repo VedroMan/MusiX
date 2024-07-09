@@ -5,4 +5,8 @@
 //  Created by Timofey on 10.07.24.
 //
 
-import Foundation
+import UIKit
+
+class TabBarViewController: UITabBarController {
+    
+}
