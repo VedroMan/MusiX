@@ -10,9 +10,9 @@ import UIKit
 class TabBarViewController: UITabBarController {
     
     private let tabs: [(image: UIImage?, title: String)] = [
-    (UIImage(systemName: "folder"), String("Search")),
-    (UIImage(systemName: "book"), String("Library")),
-    (UIImage(systemName: "folder"), String("Player")),
+    (UIImage(systemName: "magnifyingglass"), String("Search")),
+    (UIImage(systemName: "music.note.list"), String("Library")),
+    (UIImage(systemName: "play.circle"), String("Player")),
     (UIImage(systemName: "gearshape"), String("Settings"))
     
   ]
@@ -20,7 +20,7 @@ class TabBarViewController: UITabBarController {
     
     private lazy var tabBarView: UIView = {
         let barView = UIView()
-        barView.backgroundColor = .purple
+        barView.backgroundColor = .white
         barView.translatesAutoresizingMaskIntoConstraints = false
         return barView
     }()
@@ -31,19 +31,19 @@ class TabBarViewController: UITabBarController {
             let sender = sender.sender as? UIButton
         else { return }
         
-//        self.updateButtonColors
+        self.updateButtonColors(selectedButton: sender)
         self.selectedIndex = sender.tag
     }
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .clear
+        
         setupTapBarButton()
         setControllers()
     }
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         selectedIndex = 1
-//        updateButtonColors(selectedButton: tabButtons[selectedIndex])
+        updateButtonColors(selectedButton: tabButtons[selectedIndex])
     }
 }
 
@@ -56,18 +56,18 @@ private extension TabBarViewController {
         var config = UIButton.Configuration.plain()
         config.image = icon
         config.title = title
-        config.imagePadding = 3
+        config.imagePadding = 2
         config.imagePlacement = .top
         
         var attributedTitle = AttributedString(title)
-        attributedTitle.font = .systemFont(ofSize: 9, weight: .light)
+        attributedTitle.font = .systemFont(ofSize: 11, weight: .bold)
         attributedTitle.foregroundColor = .white
         
         config.attributedTitle = attributedTitle
         
         let button = UIButton(configuration: config, primaryAction: selectedItem)
         button.tag = tag
-        button.tintColor = .lightGray
+        button.tintColor = AppColors.lightGray
         return button
     }
     
@@ -97,16 +97,16 @@ private extension TabBarViewController {
     func setupConstraints(stack: UIStackView) {
         NSLayoutConstraint.activate([
             //setup constraints for TabBarView
-            tabBarView.topAnchor.constraint(equalTo: view.topAnchor),
             tabBarView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             tabBarView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
-            tabBarView.heightAnchor.constraint(equalToConstant: 100),
+            tabBarView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            tabBarView.heightAnchor.constraint(equalToConstant: 65),
             
             //setup constraints for stack in TabBarView located in UIStackView(tabBarView)
             stack.leadingAnchor.constraint(equalTo: tabBarView.leadingAnchor, constant: 10),
             stack.trailingAnchor.constraint(equalTo: tabBarView.trailingAnchor, constant: -10),
             stack.bottomAnchor.constraint(equalTo: tabBarView.bottomAnchor, constant: -10),
-            stack.topAnchor.constraint(equalTo: tabBarView.topAnchor, constant: 20)
+            stack.topAnchor.constraint(equalTo: tabBarView.topAnchor, constant: 10)
         ])
     }
     
@@ -120,5 +120,11 @@ private extension TabBarViewController {
         ]
         
         setViewControllers([controllers[0],controllers[1],controllers[2],controllers[3]], animated: true)
+    }
+    
+    //setup updateButtonColors
+    func updateButtonColors(selectedButton: UIButton) {
+        tabButtons.forEach{ $0.tintColor = AppColors.lightGray }
+        selectedButton.tintColor = AppColors.mainRed
     }
 }

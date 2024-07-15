@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		221F12662C4554070042D1A9 /* AppColors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 221F12652C4554070042D1A9 /* AppColors.swift */; };
+		221F126A2C45544C0042D1A9 /* UIColors+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 221F12692C45544C0042D1A9 /* UIColors+Extensions.swift */; };
 		223DCA922C3DE6620082A5B1 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 223DCA912C3DE6620082A5B1 /* AppDelegate.swift */; };
 		223DCA942C3DE6620082A5B1 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 223DCA932C3DE6620082A5B1 /* SceneDelegate.swift */; };
 		223DCA992C3DE6620082A5B1 /* Base in Resources */ = {isa = PBXBuildFile; fileRef = 223DCA982C3DE6620082A5B1 /* Base */; };
@@ -21,7 +23,6 @@
 		226E11182C442F2E006CC463 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 226E11172C442F2E006CC463 /* SettingsViewController.swift */; };
 		226E111C2C442FBF006CC463 /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 226E111B2C442FBF006CC463 /* SearchViewController.swift */; };
 		226E11202C443058006CC463 /* PlayerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 226E111F2C443058006CC463 /* PlayerViewController.swift */; };
-		226E11242C44327C006CC463 /* AppColors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 226E11232C44327C006CC463 /* AppColors.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -42,6 +43,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		221F12652C4554070042D1A9 /* AppColors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppColors.swift; sourceTree = "<group>"; };
+		221F12692C45544C0042D1A9 /* UIColors+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColors+Extensions.swift"; sourceTree = "<group>"; };
 		223DCA8E2C3DE6610082A5B1 /* MusiX.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MusiX.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		223DCA912C3DE6620082A5B1 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		223DCA932C3DE6620082A5B1 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -60,7 +63,6 @@
 		226E11172C442F2E006CC463 /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		226E111B2C442FBF006CC463 /* SearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
 		226E111F2C443058006CC463 /* PlayerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerViewController.swift; sourceTree = "<group>"; };
-		226E11232C44327C006CC463 /* AppColors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppColors.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -102,6 +104,15 @@
 				226E11142C442E2B006CC463 /* LibraryViewController.swift */,
 			);
 			path = LibraryViewController;
+			sourceTree = "<group>";
+		};
+		221F12642C4553DF0042D1A9 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				221F12652C4554070042D1A9 /* AppColors.swift */,
+				221F12692C45544C0042D1A9 /* UIColors+Extensions.swift */,
+			);
+			path = Extensions;
 			sourceTree = "<group>";
 		};
 		223DCA852C3DE6610082A5B1 = {
@@ -252,17 +263,9 @@
 		226E11212C443237006CC463 /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
-				226E11222C443271006CC463 /* AppColors */,
+				221F12642C4553DF0042D1A9 /* Extensions */,
 			);
 			path = Helpers;
-			sourceTree = "<group>";
-		};
-		226E11222C443271006CC463 /* AppColors */ = {
-			isa = PBXGroup;
-			children = (
-				226E11232C44327C006CC463 /* AppColors.swift */,
-			);
-			path = AppColors;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -396,11 +399,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				226E11242C44327C006CC463 /* AppColors.swift in Sources */,
+				221F12662C4554070042D1A9 /* AppColors.swift in Sources */,
 				223DCAC92C3DE7CB0082A5B1 /* TabBarViewController.swift in Sources */,
 				226E11202C443058006CC463 /* PlayerViewController.swift in Sources */,
 				226E111C2C442FBF006CC463 /* SearchViewController.swift in Sources */,
 				226E11152C442E2B006CC463 /* LibraryViewController.swift in Sources */,
+				221F126A2C45544C0042D1A9 /* UIColors+Extensions.swift in Sources */,
 				223DCA922C3DE6620082A5B1 /* AppDelegate.swift in Sources */,
 				223DCA942C3DE6620082A5B1 /* SceneDelegate.swift in Sources */,
 				223DCAC52C3DE7130082A5B1 /* Builder.swift in Sources */,
