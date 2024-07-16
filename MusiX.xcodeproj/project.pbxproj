@@ -23,6 +23,8 @@
 		226E11182C442F2E006CC463 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 226E11172C442F2E006CC463 /* SettingsViewController.swift */; };
 		226E111C2C442FBF006CC463 /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 226E111B2C442FBF006CC463 /* SearchViewController.swift */; };
 		226E11202C443058006CC463 /* PlayerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 226E111F2C443058006CC463 /* PlayerViewController.swift */; };
+		228733B92C46EC37000555BD /* LibraryTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 228733B82C46EC37000555BD /* LibraryTableViewCell.swift */; };
+		228733BB2C46EE23000555BD /* Protocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 228733BA2C46EE23000555BD /* Protocols.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -59,10 +61,12 @@
 		223DCAB42C3DE6640082A5B1 /* MusiXUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MusiXUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		223DCAC42C3DE7130082A5B1 /* Builder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Builder.swift; sourceTree = "<group>"; };
 		223DCAC82C3DE7CB0082A5B1 /* TabBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarViewController.swift; sourceTree = "<group>"; };
-		226E11142C442E2B006CC463 /* LibraryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryViewController.swift; sourceTree = "<group>"; };
+		226E11142C442E2B006CC463 /* LibraryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryViewController.swift; sourceTree = "<group>"; usesTabs = 0; };
 		226E11172C442F2E006CC463 /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		226E111B2C442FBF006CC463 /* SearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
 		226E111F2C443058006CC463 /* PlayerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerViewController.swift; sourceTree = "<group>"; };
+		228733B82C46EC37000555BD /* LibraryTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryTableViewCell.swift; sourceTree = "<group>"; };
+		228733BA2C46EE23000555BD /* Protocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Protocols.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -111,6 +115,7 @@
 			children = (
 				221F12652C4554070042D1A9 /* AppColors.swift */,
 				221F12692C45544C0042D1A9 /* UIColors+Extensions.swift */,
+				228733BA2C46EE23000555BD /* Protocols.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -215,6 +220,7 @@
 		223DCACA2C3DE8040082A5B1 /* Library */ = {
 			isa = PBXGroup;
 			children = (
+				228733B72C46EC15000555BD /* LibraryTableViewCell */,
 				221EEB9B2C3E897400A49464 /* LibraryViewController */,
 			);
 			path = Library;
@@ -266,6 +272,14 @@
 				221F12642C4553DF0042D1A9 /* Extensions */,
 			);
 			path = Helpers;
+			sourceTree = "<group>";
+		};
+		228733B72C46EC15000555BD /* LibraryTableViewCell */ = {
+			isa = PBXGroup;
+			children = (
+				228733B82C46EC37000555BD /* LibraryTableViewCell.swift */,
+			);
+			path = LibraryTableViewCell;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -402,10 +416,12 @@
 				221F12662C4554070042D1A9 /* AppColors.swift in Sources */,
 				223DCAC92C3DE7CB0082A5B1 /* TabBarViewController.swift in Sources */,
 				226E11202C443058006CC463 /* PlayerViewController.swift in Sources */,
+				228733BB2C46EE23000555BD /* Protocols.swift in Sources */,
 				226E111C2C442FBF006CC463 /* SearchViewController.swift in Sources */,
 				226E11152C442E2B006CC463 /* LibraryViewController.swift in Sources */,
 				221F126A2C45544C0042D1A9 /* UIColors+Extensions.swift in Sources */,
 				223DCA922C3DE6620082A5B1 /* AppDelegate.swift in Sources */,
+				228733B92C46EC37000555BD /* LibraryTableViewCell.swift in Sources */,
 				223DCA942C3DE6620082A5B1 /* SceneDelegate.swift in Sources */,
 				223DCAC52C3DE7130082A5B1 /* Builder.swift in Sources */,
 				226E11182C442F2E006CC463 /* SettingsViewController.swift in Sources */,
@@ -516,7 +532,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 17.5;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
@@ -573,7 +589,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 17.5;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;

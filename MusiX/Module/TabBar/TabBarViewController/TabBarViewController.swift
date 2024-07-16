@@ -34,12 +34,13 @@ class TabBarViewController: UITabBarController {
         self.updateButtonColors(selectedButton: sender)
         self.selectedIndex = sender.tag
     }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        setupTapBarButton()
-        setControllers()
+        setup()
     }
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         selectedIndex = 1
@@ -47,9 +48,15 @@ class TabBarViewController: UITabBarController {
     }
 }
 
-//MARK: ->Setup Layer
+//MARK: --Setup Layer
 
 private extension TabBarViewController {
+    
+    func setup() {
+        
+        setupTapBarButton()
+        setControllers()
+    }
     
     //create tap bar button
     func createTabBarButton(icon: UIImage, title: String, tag: Int) -> UIButton {
@@ -128,3 +135,5 @@ private extension TabBarViewController {
         selectedButton.tintColor = AppColors.mainRed
     }
 }
+
+#Preview { TabBarViewController() }
