@@ -20,8 +20,8 @@ class LibraryTableViewCell: UITableViewCell, CellProtocols {
     
     private lazy var songName: UILabel = {
         let name = UILabel()
-        name.text = "text"
-        name.font = .systemFont(ofSize: 15, weight: .medium)
+        name.text = "title"
+        name.font = .systemFont(ofSize: 20, weight: .medium)
         name.textColor = .black
         name.translatesAutoresizingMaskIntoConstraints = false
         return name
@@ -41,17 +41,17 @@ class LibraryTableViewCell: UITableViewCell, CellProtocols {
             $0.translatesAutoresizingMaskIntoConstraints = false
             contentView.addSubview($0)
         }
-        backgroundColor = AppColors.lightGrayMain
+        backgroundColor = .white
         NSLayoutConstraint.activate([
             //setup constraints for songIcon
             songIcon.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
             songIcon.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
             songIcon.heightAnchor.constraint(equalToConstant: 50),
-            songIcon.widthAnchor.constraint(equalToConstant: 50),
+            songIcon.widthAnchor.constraint(equalToConstant: 53),
             
             //setup constraints for songName
             songName.centerYAnchor.constraint(equalTo: songIcon.centerYAnchor),
-            songName.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 50),
+            songName.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 100),
             songName.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -30),
         ])
     }

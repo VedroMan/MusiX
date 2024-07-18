@@ -74,7 +74,7 @@ private extension TabBarViewController {
         
         let button = UIButton(configuration: config, primaryAction: selectedItem)
         button.tag = tag
-        button.tintColor = AppColors.lightGray
+        button.tintColor = AppColors.Gray
         return button
     }
     
@@ -131,7 +131,7 @@ private extension TabBarViewController {
     
     //setup updateButtonColors
     func updateButtonColors(selectedButton: UIButton) {
-        tabButtons.forEach{ $0.tintColor = AppColors.lightGray }
+        tabButtons.forEach{ $0.tintColor = AppColors.Gray }
         selectedButton.tintColor = AppColors.mainRed
     }
 }

@@ -7,13 +7,14 @@
 
 import UIKit
 
-class LibraryViewController: UIViewController, UITableViewDelegate {
+class LibraryViewController: UIViewController {
     
     private lazy var libraryCell: [(image: UIImage?, title: String)] = [
          (UIImage(systemName: "sun.max"), String("Sun")),
-         (UIImage(systemName: "moon.fill"), String("Moon")),
-         (UIImage(systemName: "music.microphone"), String("Microphone")),
-         (UIImage(systemName: "star.fill"), String("Star"))
+         (UIImage(systemName: "moon"), String("Moon")),
+         (UIImage(systemName: "star"), String("Star")),
+         (UIImage(systemName: "folder"), String("Folder")),
+         (UIImage(systemName: "folder.fill"), String("Fill folder"))
     ]
     
     //setup LibraryLabel
@@ -21,7 +22,7 @@ class LibraryViewController: UIViewController, UITableViewDelegate {
         let lbl = UILabel()
         lbl.text = "Library"
         lbl.textColor = .black
-        lbl.font = UIFont.systemFont(ofSize: 30, weight: .bold)
+        lbl.font = UIFont.systemFont(ofSize: 25, weight: .bold)
         lbl.translatesAutoresizingMaskIntoConstraints = false
         return lbl
     }()
@@ -32,8 +33,9 @@ class LibraryViewController: UIViewController, UITableViewDelegate {
         table.register(LibraryTableViewCell.self, forCellReuseIdentifier: LibraryTableViewCell.reuseId)
         table.backgroundColor = .clear
         table.delegate = self
+        table.dataSource = self
         table.isScrollEnabled = true
-        table.layer.cornerRadius = 20
+        table.layer.cornerRadius = 0
         table.translatesAutoresizingMaskIntoConstraints = false
         return table
     }()
@@ -49,7 +51,7 @@ class LibraryViewController: UIViewController, UITableViewDelegate {
 private extension LibraryViewController {
     
     func setup() {
-        view.backgroundColor = .white
+        view.backgroundColor = AppColors.lightGrayMain
         setupConstraints()
     }
     
@@ -59,14 +61,15 @@ private extension LibraryViewController {
         view.addSubview(tableView)
         NSLayoutConstraint.activate([
             //setup constraints for libraryTitle
-            libraryTitle.topAnchor.constraint(equalTo: view.topAnchor, constant: 50),
-            libraryTitle.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
+            libraryTitle.topAnchor.constraint(equalTo: view.topAnchor, constant: 30),
+            libraryTitle.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 30),
+            libraryTitle.heightAnchor.constraint(equalToConstant: 40),
             
             //setup constraints for tableView
             tableView.topAnchor.constraint(equalTo: libraryTitle.bottomAnchor, constant: 10),
             tableView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
-            tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 10),
-            tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -10),
+            tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             
             //playlists
         ])
@@ -74,45 +77,41 @@ private extension LibraryViewController {
 }
 
 //MARK: -- UITableViewDataSource, UITableViewDelegate
-extension LibraryViewController: UITableViewDataSource {
+extension LibraryViewController: UITableViewDataSource, UITableViewDelegate {
     
-    //Количество секций
+    //number of sections
     func numberOfSections(in tableView: UITableView) -> Int {
         libraryCell.count
     }
     
-    //Количество ячеек в секции
+    //number of rows in section
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         1
     }
     
-    //Ячейка в секции
+    //row in cell
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         let cell = tableView.dequeueReusableCell(withIdentifier: LibraryTableViewCell.reuseId, for: indexPath) as! LibraryTableViewCell
         let item = libraryCell[indexPath.section]
+        cell.configure(contact: item)
         return cell
     }
     
-    //Высота ячейки в секции
+    //height for row in section
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         50
     }
     
-    //Объявление отступа как отдельное view
+    //setup the footerView
     func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
         let footerView = UIView()
-        footerView.backgroundColor = .black
+        footerView.backgroundColor = AppColors.lightGrayMain
         return footerView
     }
     
-    //Высота отступа между секциями
+    //height for footer between cells
     func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
-        return 5
+        return 0
     }
-    
-}
-
-#Preview { 
-    TabBarViewController()
 }
