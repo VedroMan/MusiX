@@ -107,7 +107,7 @@ private extension TabBarViewController {
             tabBarView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             tabBarView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
             tabBarView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            tabBarView.heightAnchor.constraint(equalToConstant: 65),
+            tabBarView.heightAnchor.constraint(equalToConstant: 60),
             
             //setup constraints for stack in TabBarView located in UIStackView(tabBarView)
             stack.leadingAnchor.constraint(equalTo: tabBarView.leadingAnchor, constant: 10),

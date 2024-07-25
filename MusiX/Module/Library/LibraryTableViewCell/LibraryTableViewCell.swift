@@ -21,10 +21,19 @@ class LibraryTableViewCell: UITableViewCell, CellProtocols {
     private lazy var songName: UILabel = {
         let name = UILabel()
         name.text = "title"
-        name.font = .systemFont(ofSize: 20, weight: .medium)
+        name.font = .systemFont(ofSize: 19, weight: .medium)
         name.textColor = .black
         name.translatesAutoresizingMaskIntoConstraints = false
         return name
+    }()
+    
+    private lazy var autorName: UILabel = {
+        let autorName = UILabel()
+        autorName.text = "Autor name"
+        autorName.font = .systemFont(ofSize: 15, weight: .regular)
+        autorName.textColor = AppColors.Gray
+        autorName.translatesAutoresizingMaskIntoConstraints = false
+        return autorName
     }()
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
@@ -37,7 +46,7 @@ class LibraryTableViewCell: UITableViewCell, CellProtocols {
     }
     
     private func setupCell() {
-        [songIcon, songName].forEach {
+        [songIcon, songName, autorName].forEach {
             $0.translatesAutoresizingMaskIntoConstraints = false
             contentView.addSubview($0)
         }
@@ -47,12 +56,17 @@ class LibraryTableViewCell: UITableViewCell, CellProtocols {
             songIcon.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
             songIcon.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
             songIcon.heightAnchor.constraint(equalToConstant: 50),
-            songIcon.widthAnchor.constraint(equalToConstant: 53),
+            songIcon.widthAnchor.constraint(equalToConstant: 50),
             
             //setup constraints for songName
-            songName.centerYAnchor.constraint(equalTo: songIcon.centerYAnchor),
+            songName.centerYAnchor.constraint(equalTo: songIcon.centerYAnchor, constant: -8),
             songName.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 100),
             songName.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -30),
+            
+            //setup constraints for autorTitle
+            autorName.centerYAnchor.constraint(equalTo: songIcon.centerYAnchor, constant: 12),
+            autorName.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 100),
+            autorName.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -30),
         ])
     }
     func configure(contact: (image: UIImage?, title: String)) {

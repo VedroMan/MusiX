@@ -12,10 +12,27 @@ class LibraryViewController: UIViewController {
     private lazy var libraryCell: [(image: UIImage?, title: String)] = [
          (UIImage(systemName: "sun.max"), String("Sun")),
          (UIImage(systemName: "moon"), String("Moon")),
-         (UIImage(systemName: "star"), String("Star")),
          (UIImage(systemName: "folder"), String("Folder")),
-         (UIImage(systemName: "folder.fill"), String("Fill folder"))
+         (UIImage(systemName: "square"), String("Square")),
+         (UIImage(systemName: "questionmark.square"), String("Question")),
+         (UIImage(systemName: "music.note"), String("Default")),
+         (UIImage(systemName: "square.dotted"), String("Dotted square")),
+         (UIImage(systemName: "sun.max"), String("Sun")),
+         (UIImage(systemName: "moon"), String("Moon")),
+         (UIImage(systemName: "folder"), String("Folder")),
+         (UIImage(systemName: "square"), String("Square")),
+         (UIImage(systemName: "questionmark.square"), String("Question")),
+         (UIImage(systemName: "music.note"), String("Default")),
+         (UIImage(systemName: "square.dotted"), String("Dotted square")),
     ]
+    
+    //setup titleTopView
+    private lazy var topTitleView: UIView = {
+        let topView = UIView()
+        topView.backgroundColor = .clear
+        topView.translatesAutoresizingMaskIntoConstraints = false
+        return topView
+    }()
     
     //setup LibraryLabel
     private lazy var libraryTitle: UILabel = {
@@ -57,19 +74,27 @@ private extension LibraryViewController {
     
     //setupConstraints
     func setupConstraints() {
-        view.addSubview(libraryTitle)
+        view.addSubview(topTitleView)
         view.addSubview(tableView)
+        topTitleView.addSubview(libraryTitle)
         NSLayoutConstraint.activate([
+            //setup constraints for libraryTitle
+            topTitleView.topAnchor.constraint(equalTo: view.topAnchor),
+            topTitleView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            topTitleView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            topTitleView.heightAnchor.constraint(equalToConstant: 100),
+            
             //setup constraints for libraryTitle
             libraryTitle.topAnchor.constraint(equalTo: view.topAnchor, constant: 30),
             libraryTitle.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 30),
             libraryTitle.heightAnchor.constraint(equalToConstant: 40),
             
             //setup constraints for tableView
-            tableView.topAnchor.constraint(equalTo: libraryTitle.bottomAnchor, constant: 10),
+            tableView.topAnchor.constraint(equalTo: view.topAnchor, constant: 90),
             tableView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
             tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -60)
             
             //playlists
         ])
@@ -100,7 +125,7 @@ extension LibraryViewController: UITableViewDataSource, UITableViewDelegate {
     
     //height for row in section
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        50
+        65
     }
     
     //setup the footerView
@@ -115,3 +140,5 @@ extension LibraryViewController: UITableViewDataSource, UITableViewDelegate {
         return 0
     }
 }
+
+#Preview {TabBarViewController()}

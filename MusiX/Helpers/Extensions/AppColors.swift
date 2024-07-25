@@ -12,5 +12,5 @@ enum AppColors {
     static let Gray = UIColor().rgb(r: 105, g: 105, b: 105)
     static let lightGrayMain = UIColor().rgb(r: 240, g: 240, b: 240)
     static let pink = UIColor().rgb(r: 250, g: 128, b: 114)
-    
+    static let mistyRose = UIColor().rgb(r: 255, g: 228, b: 255)
 }
