@@ -24,7 +24,7 @@
 		226E11182C442F2E006CC463 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 226E11172C442F2E006CC463 /* SettingsViewController.swift */; };
 		226E111C2C442FBF006CC463 /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 226E111B2C442FBF006CC463 /* SearchViewController.swift */; };
 		226E11202C443058006CC463 /* PlayerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 226E111F2C443058006CC463 /* PlayerViewController.swift */; };
-		2285327F2C51B24E0090D0F7 /* haunted4.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 2285327E2C51B24E0090D0F7 /* haunted4.mp3 */; };
+		2285327F2C51B24E0090D0F7 /* 4elovek - haunted4.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 2285327E2C51B24E0090D0F7 /* 4elovek - haunted4.mp3 */; };
 		228733B92C46EC37000555BD /* LibraryTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 228733B82C46EC37000555BD /* LibraryTableViewCell.swift */; };
 		228733BB2C46EE23000555BD /* Protocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 228733BA2C46EE23000555BD /* Protocols.swift */; };
 /* End PBXBuildFile section */
@@ -68,7 +68,7 @@
 		226E11172C442F2E006CC463 /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		226E111B2C442FBF006CC463 /* SearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
 		226E111F2C443058006CC463 /* PlayerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerViewController.swift; sourceTree = "<group>"; };
-		2285327E2C51B24E0090D0F7 /* haunted4.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = haunted4.mp3; sourceTree = "<group>"; };
+		2285327E2C51B24E0090D0F7 /* 4elovek - haunted4.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "4elovek - haunted4.mp3"; sourceTree = "<group>"; };
 		228733B82C46EC37000555BD /* LibraryTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryTableViewCell.swift; sourceTree = "<group>"; };
 		228733BA2C46EE23000555BD /* Protocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Protocols.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -290,7 +290,7 @@
 		22C529002C492BEE008B638A /* musicLibrary */ = {
 			isa = PBXGroup;
 			children = (
-				2285327E2C51B24E0090D0F7 /* haunted4.mp3 */,
+				2285327E2C51B24E0090D0F7 /* 4elovek - haunted4.mp3 */,
 				2238B8422C529606004DF4F6 /* The Beatles - Baby, You're A Rich Man.mp3 */,
 			);
 			path = musicLibrary;
@@ -404,7 +404,7 @@
 				2238B8432C529606004DF4F6 /* The Beatles - Baby, You're A Rich Man.mp3 in Resources */,
 				223DCA9E2C3DE6640082A5B1 /* Base in Resources */,
 				223DCA992C3DE6620082A5B1 /* Base in Resources */,
-				2285327F2C51B24E0090D0F7 /* haunted4.mp3 in Resources */,
+				2285327F2C51B24E0090D0F7 /* 4elovek - haunted4.mp3 in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

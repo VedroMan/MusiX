@@ -15,7 +15,7 @@ class PlayerViewController: UIViewController, AVAudioPlayerDelegate {
     var currentTrackIndex: Int = 0
     
     var tracks: [String?] = [
-        String("haunted4"),
+        String("4elovek - haunted4"),
         String("The Beatles - Baby, You're A Rich Man")
         
     ]
@@ -56,7 +56,7 @@ class PlayerViewController: UIViewController, AVAudioPlayerDelegate {
     private lazy var songLabel: UILabel = {
         let label = UILabel()
         label.text = "Track name"
-        label.textColor = .red
+        label.textColor = .black
         label.font = UIFont.systemFont(ofSize: 20, weight: .medium)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
@@ -88,10 +88,10 @@ class PlayerViewController: UIViewController, AVAudioPlayerDelegate {
     //setup trackImage
     private lazy var trackImage: UIImageView = {
         let image = UIImageView()
-        image.image = UIImage(systemName: "music.note")
-        image.tintColor = AppColors.Gray
-        image.backgroundColor = .green
-        image.contentMode = .scaleToFill
+        image.image = UIImage(systemName: "m.circle.fill")
+        image.tintColor = AppColors.mainRed
+        image.backgroundColor = .systemGray4
+        image.contentMode = .scaleAspectFit
         image.translatesAutoresizingMaskIntoConstraints = false
         return image
     }()
@@ -163,30 +163,30 @@ private extension PlayerViewController {
             
             // setup constraints for trackLabel
             songLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            songLabel.bottomAnchor.constraint(equalTo: playerButton.topAnchor, constant: -50),
+            songLabel.topAnchor.constraint(equalTo: trackImage.bottomAnchor),
             
             // setup constraints for next/past button
-            nextButton.leadingAnchor.constraint(equalTo: view.centerXAnchor, constant: 70),
+            nextButton.leadingAnchor.constraint(equalTo: view.centerXAnchor, constant: 60),
             nextButton.bottomAnchor.constraint(equalTo: musicSlider.topAnchor, constant: -20),
             nextButton.heightAnchor.constraint(equalToConstant: 40),
             nextButton.widthAnchor.constraint(equalToConstant: 40),
             
-            pastButton.trailingAnchor.constraint(equalTo: view.centerXAnchor, constant: -70),
+            pastButton.trailingAnchor.constraint(equalTo: view.centerXAnchor, constant: -60),
             pastButton.bottomAnchor.constraint(equalTo: musicSlider.topAnchor, constant: -20),
             pastButton.heightAnchor.constraint(equalToConstant: 40),
             pastButton.widthAnchor.constraint(equalToConstant: 40),
             
             // setup constraints for trackTimers
             trackStartTimer.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: -160),
-            trackStartTimer.bottomAnchor.constraint(equalTo: musicSlider.topAnchor, constant: -5),
+            trackStartTimer.bottomAnchor.constraint(equalTo: musicSlider.topAnchor),
             trackEndTimer.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: 160),
-            trackEndTimer.bottomAnchor.constraint(equalTo: musicSlider.topAnchor, constant: -5),
+            trackEndTimer.bottomAnchor.constraint(equalTo: musicSlider.topAnchor),
             
             // setup constraints for trackImage
-            trackImage.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 10),
-            trackImage.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -10),
-            trackImage.topAnchor.constraint(equalTo: view.topAnchor, constant: 150),
-            trackImage.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -300)
+            trackImage.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 20),
+            trackImage.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            trackImage.heightAnchor.constraint(equalToConstant: 350),
+            trackImage.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.89),
             
         ])
     }
