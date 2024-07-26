@@ -20,6 +20,8 @@ class PlayerViewController: UIViewController, AVAudioPlayerDelegate {
         
     ]
     
+    //MARK: -- UI Elements
+    
     //setup play/pause button
     private lazy var playerButton: UIButton = {
         let playBtn = UIButton(type: .system)
@@ -53,7 +55,7 @@ class PlayerViewController: UIViewController, AVAudioPlayerDelegate {
     //setup trackLabel
     private lazy var songLabel: UILabel = {
         let label = UILabel()
-        label.text = "Song name"
+        label.text = "Track name"
         label.textColor = .red
         label.font = UIFont.systemFont(ofSize: 20, weight: .medium)
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -86,16 +88,28 @@ class PlayerViewController: UIViewController, AVAudioPlayerDelegate {
     //setup trackImage
     private lazy var trackImage: UIImageView = {
         let image = UIImageView()
-        
+        image.image = UIImage(systemName: "music.note")
+        image.tintColor = AppColors.Gray
+        image.backgroundColor = .green
+        image.contentMode = .scaleToFill
         image.translatesAutoresizingMaskIntoConstraints = false
         return image
     }()
     
-    // setup trackTimer
-    private lazy var trackTimer: UILabel = {
+    // setup trackTimers
+    private lazy var trackStartTimer: UILabel = {
         let label = UILabel()
-        label.text = "00:00 -- -00:00"
-        label.textColor = .red
+        label.text = "0:00"
+        label.textColor = .black
+        label.font = UIFont.systemFont(ofSize: 15, weight: .regular)
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+    
+    private lazy var trackEndTimer: UILabel = {
+        let label = UILabel()
+        label.text = "0:00"
+        label.textColor = .black
         label.font = UIFont.systemFont(ofSize: 15, weight: .regular)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
@@ -124,7 +138,8 @@ private extension PlayerViewController {
         view.addSubview(songLabel)
         view.addSubview(nextButton)
         view.addSubview(pastButton)
-        view.addSubview(trackTimer)
+        view.addSubview(trackStartTimer)
+        view.addSubview(trackEndTimer)
         view.addSubview(trackImage)
         
         NSLayoutConstraint.activate([
@@ -148,22 +163,30 @@ private extension PlayerViewController {
             
             // setup constraints for trackLabel
             songLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            songLabel.bottomAnchor.constraint(equalTo: playerButton.topAnchor, constant: -100),
+            songLabel.bottomAnchor.constraint(equalTo: playerButton.topAnchor, constant: -50),
             
             // setup constraints for next/past button
-            nextButton.leadingAnchor.constraint(equalTo: view.centerXAnchor, constant: 80),
+            nextButton.leadingAnchor.constraint(equalTo: view.centerXAnchor, constant: 70),
             nextButton.bottomAnchor.constraint(equalTo: musicSlider.topAnchor, constant: -20),
             nextButton.heightAnchor.constraint(equalToConstant: 40),
             nextButton.widthAnchor.constraint(equalToConstant: 40),
             
-            pastButton.trailingAnchor.constraint(equalTo: view.centerXAnchor, constant: -80),
+            pastButton.trailingAnchor.constraint(equalTo: view.centerXAnchor, constant: -70),
             pastButton.bottomAnchor.constraint(equalTo: musicSlider.topAnchor, constant: -20),
             pastButton.heightAnchor.constraint(equalToConstant: 40),
             pastButton.widthAnchor.constraint(equalToConstant: 40),
             
-            // setup constraints for trackTimer
-            trackTimer.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: -1),
-            trackTimer.bottomAnchor.constraint(equalTo: musicSlider.topAnchor, constant: 20)
+            // setup constraints for trackTimers
+            trackStartTimer.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: -160),
+            trackStartTimer.bottomAnchor.constraint(equalTo: musicSlider.topAnchor, constant: -5),
+            trackEndTimer.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: 160),
+            trackEndTimer.bottomAnchor.constraint(equalTo: musicSlider.topAnchor, constant: -5),
+            
+            // setup constraints for trackImage
+            trackImage.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 10),
+            trackImage.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -10),
+            trackImage.topAnchor.constraint(equalTo: view.topAnchor, constant: 150),
+            trackImage.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -300)
             
         ])
     }
@@ -225,8 +248,17 @@ private extension PlayerViewController {
     }
     
     @objc private func updateSliderValue() {
+        
         guard let audioPlayer = audioPlayer else { return }
         musicSlider.value = Float(audioPlayer.currentTime / audioPlayer.duration)
+        let startTime = audioPlayer.currentTime
+        let endTime = audioPlayer.duration
+        let startTimeString = String(format: "%2d:%02d", Int(startTime) / 60, Int(startTime) % 60)
+        let endTimeString = String(format: "%2d:%02d", Int(endTime) / 60, Int(endTime) % 60)
+        
+        // setup track time
+        trackStartTimer.text = "\(startTimeString)"
+        trackEndTimer.text = "\(endTimeString)"
     }
     
     //setup next/past button functions

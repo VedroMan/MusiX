@@ -43,7 +43,7 @@ class TabBarViewController: UITabBarController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        selectedIndex = 1
+        selectedIndex = 2
         updateButtonColors(selectedButton: tabButtons[selectedIndex])
     }
 }
@@ -113,7 +113,7 @@ private extension TabBarViewController {
             stack.leadingAnchor.constraint(equalTo: tabBarView.leadingAnchor, constant: 10),
             stack.trailingAnchor.constraint(equalTo: tabBarView.trailingAnchor, constant: -10),
             stack.bottomAnchor.constraint(equalTo: tabBarView.bottomAnchor, constant: -10),
-            stack.topAnchor.constraint(equalTo: tabBarView.topAnchor, constant: 10)
+            stack.topAnchor.constraint(equalTo: tabBarView.topAnchor, constant: 5)
         ])
     }
     
