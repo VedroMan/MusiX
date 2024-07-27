@@ -14,10 +14,9 @@ class PlayerViewController: UIViewController, AVAudioPlayerDelegate {
     var songTimer: Timer?
     var currentTrackIndex: Int = 0
     
-    var tracks: [String?] = [
-        String("4elovek - haunted4"),
-        String("The Beatles - Baby, You're A Rich Man")
-        
+    var tracks: [(track: String?, autor: String?)] = [
+        (String("haunted4"), String("")),
+        (String(""), String("")),
     ]
     
     //MARK: -- UI Elements
@@ -62,15 +61,7 @@ class PlayerViewController: UIViewController, AVAudioPlayerDelegate {
         return label
     }()
     
-//    //setup playerLabel
-//    private lazy var playerTitle: UILabel = {
-//        let lbl = UILabel()
-//        lbl.text = "Player"
-//        lbl.textColor = .black
-//        lbl.font = UIFont.systemFont(ofSize: 25, weight: .bold)
-//        lbl.translatesAutoresizingMaskIntoConstraints = false
-//        return lbl
-//    }()
+    // setup trackAutor
     
     //setup slider
     private lazy var musicSlider: UISlider = {
@@ -88,7 +79,7 @@ class PlayerViewController: UIViewController, AVAudioPlayerDelegate {
     //setup trackImage
     private lazy var trackImage: UIImageView = {
         let image = UIImageView()
-        image.image = UIImage(systemName: "m.circle.fill")
+        image.image = UIImage(systemName: "music.note")
         image.tintColor = AppColors.mainRed
         image.backgroundColor = .systemGray4
         image.contentMode = .scaleAspectFit
@@ -144,11 +135,6 @@ private extension PlayerViewController {
         
         NSLayoutConstraint.activate([
             
-            // setup constraints for playerTitle
-//            playerTitle.topAnchor.constraint(equalTo: view.topAnchor, constant: 30),
-//            playerTitle.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 30),
-//            playerTitle.heightAnchor.constraint(equalToConstant: 40),
-            
             // setup constraints for play/pause button
             playerButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             playerButton.bottomAnchor.constraint(equalTo: musicSlider.topAnchor, constant: -20),
@@ -177,9 +163,9 @@ private extension PlayerViewController {
             pastButton.widthAnchor.constraint(equalToConstant: 40),
             
             // setup constraints for trackTimers
-            trackStartTimer.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: -160),
+            trackStartTimer.leadingAnchor.constraint(equalTo: musicSlider.leadingAnchor),
             trackStartTimer.bottomAnchor.constraint(equalTo: musicSlider.topAnchor),
-            trackEndTimer.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: 160),
+            trackEndTimer.trailingAnchor.constraint(equalTo: musicSlider.trailingAnchor),
             trackEndTimer.bottomAnchor.constraint(equalTo: musicSlider.topAnchor),
             
             // setup constraints for trackImage
@@ -199,13 +185,14 @@ extension PlayerViewController {
         
         guard currentTrackIndex >= 0, currentTrackIndex < tracks.count else { return }
         guard let trackName = tracks[safe: currentTrackIndex] else { return }
-        guard let url = Bundle.main.url(forResource: trackName, withExtension: "mp3") else { return }
+        guard let url = Bundle.main.url(forResource: trackName.track, withExtension: "mp3") else { return }
         
         do {
             audioPlayer = try AVAudioPlayer(contentsOf: url)
             audioPlayer?.prepareToPlay()
             audioPlayer?.delegate = self
-            songLabel.text = trackName
+            songLabel.text = trackName.track
+            updateTrackTimer()
         } catch {
             print("Error initializing player \(error)")
         }
@@ -245,23 +232,24 @@ private extension PlayerViewController {
     
     @objc private func sliderValueChanged(_ sender: UISlider) {
         audioPlayer?.currentTime = TimeInterval(sender.value) * audioPlayer!.duration
+        updateTrackTimer()
     }
     
-    @objc private func updateSliderValue() {
+    @objc private func updateTrackTimer() {
         
         guard let audioPlayer = audioPlayer else { return }
         musicSlider.value = Float(audioPlayer.currentTime / audioPlayer.duration)
         let startTime = audioPlayer.currentTime
-        let endTime = audioPlayer.duration
-        let startTimeString = String(format: "%2d:%02d", Int(startTime) / 60, Int(startTime) % 60)
-        let endTimeString = String(format: "%2d:%02d", Int(endTime) / 60, Int(endTime) % 60)
+        let endTime = audioPlayer.duration - startTime
+        let startTimeString = String(format: "%01d:%02d", Int(startTime) / 60, Int(startTime) % 60)
+        let endTimeString = String(format: "%01d:%02d", Int(endTime) / 60, Int(endTime) % 60)
         
         // setup track time
-        trackStartTimer.text = "\(startTimeString)"
-        trackEndTimer.text = "\(endTimeString)"
+        trackStartTimer.text = startTimeString
+        trackEndTimer.text = endTimeString
     }
     
-    //setup next/past button functions
+    // setup next/past track button functions
     @objc private func nextButtonTap(_ sender: UISlider) {
         if audioPlayer?.isPlaying == true {
             
@@ -293,7 +281,7 @@ private extension PlayerViewController {
     }
     
     private func startSongTimer() {
-        songTimer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(updateSliderValue), userInfo: nil, repeats: true)
+        songTimer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(updateTrackTimer), userInfo: nil, repeats: true)
     }
     
     private func stopSongTimer() {
