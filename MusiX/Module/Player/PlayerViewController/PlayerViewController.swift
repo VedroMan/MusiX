@@ -11,13 +11,10 @@ import AVFoundation
 class PlayerViewController: UIViewController, AVAudioPlayerDelegate {
     
     var audioPlayer: AVAudioPlayer?
-    var songTimer: Timer?
+    var trackTimer: Timer?
     var currentTrackIndex: Int = 0
     
-    var tracks: [(track: String?, autor: String?)] = [
-        (String("haunted4"), String("")),
-        (String(""), String("")),
-    ]
+    var tracks: [(image: UIImage?, track: String, artist: String)] = []
     
     //MARK: -- UI Elements
     
@@ -52,16 +49,24 @@ class PlayerViewController: UIViewController, AVAudioPlayerDelegate {
     }()
     
     //setup trackLabel
-    private lazy var songLabel: UILabel = {
+    private lazy var trackLabel: UILabel = {
         let label = UILabel()
-        label.text = "Track name"
+        label.text = "Track Name"
         label.textColor = .black
         label.font = UIFont.systemFont(ofSize: 20, weight: .medium)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
-    // setup trackAutor
+    // setup autor label
+    private lazy var autorLabel: UILabel = {
+        let label = UILabel()
+        label.text = "Autor Name"
+        label.textColor = .black
+        label.font = .systemFont(ofSize: 15, weight: .regular)
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
     
     //setup slider
     private lazy var musicSlider: UISlider = {
@@ -123,10 +128,10 @@ private extension PlayerViewController {
     //setupConstraints
     func setupConstraints() {
         
-//        view.addSubview(playerTitle)
         view.addSubview(musicSlider)
         view.addSubview(playerButton)
-        view.addSubview(songLabel)
+        view.addSubview(trackLabel)
+        view.addSubview(autorLabel)
         view.addSubview(nextButton)
         view.addSubview(pastButton)
         view.addSubview(trackStartTimer)
@@ -148,8 +153,12 @@ private extension PlayerViewController {
             musicSlider.heightAnchor.constraint(equalToConstant: 40),
             
             // setup constraints for trackLabel
-            songLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            songLabel.topAnchor.constraint(equalTo: trackImage.bottomAnchor),
+            trackLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            trackLabel.topAnchor.constraint(equalTo: trackImage.bottomAnchor, constant: 3),
+            
+            // setup constraints for autorLabel
+            autorLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            autorLabel.topAnchor.constraint(equalTo: trackLabel.bottomAnchor, constant: 3),
             
             // setup constraints for next/past button
             nextButton.leadingAnchor.constraint(equalTo: view.centerXAnchor, constant: 60),
@@ -191,8 +200,10 @@ extension PlayerViewController {
             audioPlayer = try AVAudioPlayer(contentsOf: url)
             audioPlayer?.prepareToPlay()
             audioPlayer?.delegate = self
-            songLabel.text = trackName.track
+            trackLabel.text = trackName.track
+            autorLabel.text = trackName.artist
             updateTrackTimer()
+            
         } catch {
             print("Error initializing player \(error)")
         }
@@ -219,13 +230,13 @@ private extension PlayerViewController {
         if audioPlayer?.isPlaying == true {
             audioPlayer?.pause()
             playerButton.setBackgroundImage(UIImage(systemName: "play.fill"), for: .normal)
-            stopSongTimer()
+            stopTrackTimer()
             
         } else {
             
             audioPlayer?.play()
             playerButton.setBackgroundImage(UIImage(systemName: "pause.fill"), for: .normal)
-            startSongTimer()
+            startTrackTimer()
             
         }
     }
@@ -243,6 +254,7 @@ private extension PlayerViewController {
         let endTime = audioPlayer.duration - startTime
         let startTimeString = String(format: "%01d:%02d", Int(startTime) / 60, Int(startTime) % 60)
         let endTimeString = String(format: "%01d:%02d", Int(endTime) / 60, Int(endTime) % 60)
+        print(#function)
         
         // setup track time
         trackStartTimer.text = startTimeString
@@ -250,7 +262,7 @@ private extension PlayerViewController {
     }
     
     // setup next/past track button functions
-    @objc private func nextButtonTap(_ sender: UISlider) {
+    @objc private func nextButtonTap() {
         if audioPlayer?.isPlaying == true {
             
             currentTrackIndex = (currentTrackIndex + 1) % tracks.count
@@ -280,16 +292,31 @@ private extension PlayerViewController {
         }
     }
     
-    private func startSongTimer() {
-        songTimer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(updateTrackTimer), userInfo: nil, repeats: true)
+    private func startTrackTimer() {
+        trackTimer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(updateTrackTimer), userInfo: nil, repeats: true)
     }
     
-    private func stopSongTimer() {
-        songTimer?.invalidate()
-        songTimer = nil
+    private func stopTrackTimer() {
+        trackTimer?.invalidate()
+        trackTimer = nil
         
     }
 }
 
-#Preview { PlayerViewController() }
+//MARK: -- Setup Delegate
+extension PlayerViewController: LibraryViewControllerDelegate {
+    
+    // setup delegate
+    func didSelectedSong(image: UIImage?, track: String, artist: String) {
+        let newTrack = (image: image, track: track, artist: artist)
+        
+        tracks.append(newTrack)
+        currentTrackIndex = tracks.count - 1
+        setupAudioPlayer()
+        audioPlayer?.play()
+        startTrackTimer()
+        playerButton.setBackgroundImage(UIImage(systemName: "pause.fill"), for: .normal)
+    }
+}
+
 #Preview { TabBarViewController() }

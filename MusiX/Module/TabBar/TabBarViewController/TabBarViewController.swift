@@ -43,7 +43,7 @@ class TabBarViewController: UITabBarController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        selectedIndex = 2
+        selectedIndex = 1
         updateButtonColors(selectedButton: tabButtons[selectedIndex])
     }
 }
@@ -56,6 +56,7 @@ private extension TabBarViewController {
         
         setupTapBarButton()
         setControllers()
+        
     }
     
     //create tap bar button
@@ -119,14 +120,14 @@ private extension TabBarViewController {
     
     //Setup ViewControllers
     func setControllers() {
-        let controllers = [
-        SearchViewController(),
-        LibraryViewController(),
-        PlayerViewController(),
-        SettingsViewController()
-        ]
+        let playerVC = PlayerViewController()
+        let libraryVC = LibraryViewController()
+        let searchVC = SearchViewController()
+        let settingsVC = SettingsViewController()
         
-        setViewControllers([controllers[0],controllers[1],controllers[2],controllers[3]], animated: true)
+        libraryVC.delegate = playerVC
+        
+        setViewControllers([searchVC, libraryVC, playerVC, settingsVC], animated: true)
     }
     
     //setup updateButtonColors
@@ -135,5 +136,3 @@ private extension TabBarViewController {
         selectedButton.tintColor = AppColors.mainRed
     }
 }
-
-#Preview { TabBarViewController() }
