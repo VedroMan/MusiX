@@ -76,5 +76,3 @@ class LibraryTableViewCell: UITableViewCell, CellProtocols {
         autorName.text = contact.artist
     }
 }
-
-#Preview { TabBarViewController() }
