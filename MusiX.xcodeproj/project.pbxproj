@@ -25,6 +25,7 @@
 		223DCAB52C3DE6640082A5B1 /* MusiXUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 223DCAB42C3DE6640082A5B1 /* MusiXUITestsLaunchTests.swift */; };
 		223DCAC52C3DE7130082A5B1 /* Builder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 223DCAC42C3DE7130082A5B1 /* Builder.swift */; };
 		223DCAC92C3DE7CB0082A5B1 /* TabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 223DCAC82C3DE7CB0082A5B1 /* TabBarViewController.swift */; };
+		2242321E2C663899003511BC /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2242321D2C663899003511BC /* CoreData.framework */; };
 		226E11152C442E2B006CC463 /* LibraryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 226E11142C442E2B006CC463 /* LibraryViewController.swift */; };
 		226E11182C442F2E006CC463 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 226E11172C442F2E006CC463 /* SettingsViewController.swift */; };
 		226E111C2C442FBF006CC463 /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 226E111B2C442FBF006CC463 /* SearchViewController.swift */; };
@@ -73,6 +74,7 @@
 		223DCAB42C3DE6640082A5B1 /* MusiXUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MusiXUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		223DCAC42C3DE7130082A5B1 /* Builder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Builder.swift; sourceTree = "<group>"; };
 		223DCAC82C3DE7CB0082A5B1 /* TabBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarViewController.swift; sourceTree = "<group>"; };
+		2242321D2C663899003511BC /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		226E11142C442E2B006CC463 /* LibraryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryViewController.swift; sourceTree = "<group>"; usesTabs = 0; };
 		226E11172C442F2E006CC463 /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		226E111B2C442FBF006CC463 /* SearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
@@ -86,6 +88,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2242321E2C663899003511BC /* CoreData.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -139,6 +142,7 @@
 				223DCAA72C3DE6640082A5B1 /* MusiXTests */,
 				223DCAB12C3DE6640082A5B1 /* MusiXUITests */,
 				223DCA8F2C3DE6610082A5B1 /* Products */,
+				2242321C2C663898003511BC /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -237,6 +241,14 @@
 				221EEB9B2C3E897400A49464 /* LibraryViewController */,
 			);
 			path = Library;
+			sourceTree = "<group>";
+		};
+		2242321C2C663898003511BC /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				2242321D2C663899003511BC /* CoreData.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 		226E11162C442F12006CC463 /* SettingsViewController */ = {
