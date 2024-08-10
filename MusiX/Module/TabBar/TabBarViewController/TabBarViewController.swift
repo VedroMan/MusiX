@@ -106,15 +106,15 @@ private extension TabBarViewController {
         NSLayoutConstraint.activate([
             //setup constraints for TabBarView
             tabBarView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            tabBarView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            tabBarView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: 40),
             tabBarView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            tabBarView.heightAnchor.constraint(equalToConstant: 60),
+            tabBarView.heightAnchor.constraint(equalToConstant: 100),
             
             //setup constraints for stack in TabBarView located in UIStackView(tabBarView)
             stack.leadingAnchor.constraint(equalTo: tabBarView.leadingAnchor, constant: 10),
             stack.trailingAnchor.constraint(equalTo: tabBarView.trailingAnchor, constant: -10),
-            stack.bottomAnchor.constraint(equalTo: tabBarView.bottomAnchor, constant: -10),
-            stack.topAnchor.constraint(equalTo: tabBarView.topAnchor, constant: 5)
+            stack.bottomAnchor.constraint(equalTo: tabBarView.bottomAnchor, constant: -40),
+            stack.topAnchor.constraint(equalTo: tabBarView.topAnchor)
         ])
     }
     
@@ -136,3 +136,5 @@ private extension TabBarViewController {
         selectedButton.tintColor = AppColors.mainRed
     }
 }
+
+#Preview {TabBarViewController()}

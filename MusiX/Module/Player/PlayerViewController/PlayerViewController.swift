@@ -147,9 +147,9 @@ private extension PlayerViewController {
         setupAudioPlayer()
         
     }
-    //setupConstraints
+    
+    // setup constraints
     func setupConstraints() {
-        
         view.addSubview(musicSlider)
         view.addSubview(playerButton)
         view.addSubview(trackLabel)
@@ -162,65 +162,72 @@ private extension PlayerViewController {
         view.addSubview(repeatTrackButton)
         view.addSubview(shuffleTracksButton)
         
-        NSLayoutConstraint.activate([
-            
-            // setup constraints for play/pause button
-            playerButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            playerButton.bottomAnchor.constraint(equalTo: musicSlider.topAnchor, constant: -15),
-            playerButton.heightAnchor.constraint(equalToConstant: 50),
-            playerButton.widthAnchor.constraint(equalToConstant: 45),
-            
-            // setup constraints for musicSlider
-            musicSlider.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -70),
-            musicSlider.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 15),
-            musicSlider.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -15),
-            musicSlider.heightAnchor.constraint(equalToConstant: 40),
-            
-            // setup constraints for trackLabel
-            trackLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            trackLabel.topAnchor.constraint(equalTo: trackImage.bottomAnchor, constant: 3),
-            
-            // setup constraints for autorLabel
-            autorLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            autorLabel.topAnchor.constraint(equalTo: trackLabel.bottomAnchor, constant: 5),
-            
-            // setup constraints for next/past button
-            nextButton.leadingAnchor.constraint(equalTo: view.centerXAnchor, constant: 60),
-            nextButton.bottomAnchor.constraint(equalTo: musicSlider.topAnchor, constant: -20),
-            nextButton.heightAnchor.constraint(equalToConstant: 40),
-            nextButton.widthAnchor.constraint(equalToConstant: 40),
-            
-            pastButton.trailingAnchor.constraint(equalTo: view.centerXAnchor, constant: -60),
-            pastButton.bottomAnchor.constraint(equalTo: musicSlider.topAnchor, constant: -20),
-            pastButton.heightAnchor.constraint(equalToConstant: 40),
-            pastButton.widthAnchor.constraint(equalToConstant: 40),
-            
-            // setup constraints for trackTimers
-            trackStartTimer.leadingAnchor.constraint(equalTo: musicSlider.leadingAnchor),
-            trackStartTimer.bottomAnchor.constraint(equalTo: musicSlider.topAnchor),
-            trackEndTimer.trailingAnchor.constraint(equalTo: musicSlider.trailingAnchor),
-            trackEndTimer.bottomAnchor.constraint(equalTo: musicSlider.topAnchor),
-            
-            // setup constraints for trackImage
-            trackImage.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 20),
-            trackImage.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            trackImage.heightAnchor.constraint(equalToConstant: 350),
-            trackImage.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.89),
-            
-            // setup constraints for repeat
-            repeatTrackButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 10),
-            repeatTrackButton.bottomAnchor.constraint(equalTo: trackStartTimer.topAnchor, constant: -20),
-            repeatTrackButton.heightAnchor.constraint(equalToConstant: 35),
-            repeatTrackButton.widthAnchor.constraint(equalToConstant: 40),
-            
-            // setup constraints for shuffle
-            shuffleTracksButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -10),
-            shuffleTracksButton.bottomAnchor.constraint(equalTo: trackEndTimer.topAnchor, constant: -20),
-            shuffleTracksButton.heightAnchor.constraint(equalToConstant: 34),
-            shuffleTracksButton.widthAnchor.constraint(equalToConstant: 38)
-        ])
+        // setup array of constraints
+        var constraints: [NSLayoutConstraint] = []
+        
+        // setup constraints for play/pause button
+        constraints.append(playerButton.centerXAnchor.constraint(equalTo: view.centerXAnchor))
+        constraints.append(playerButton.bottomAnchor.constraint(equalTo: musicSlider.topAnchor, constant: -15))
+        constraints.append(playerButton.heightAnchor.constraint(equalToConstant: 50))
+        constraints.append(playerButton.widthAnchor.constraint(equalToConstant: 45))
+        
+        // setup constraints for musicSlider
+        if UIScreen.main.bounds.height <= 667 { // iPhone SE
+            constraints.append(musicSlider.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -70))
+        } else { // iPhone with larger screens
+            constraints.append(musicSlider.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -105))
+        }
+        
+        constraints.append(musicSlider.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 15))
+        constraints.append(musicSlider.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -15))
+        constraints.append(musicSlider.heightAnchor.constraint(equalToConstant: 40))
+        
+        // setup constraints for trackLabel
+        constraints.append(trackLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor))
+        constraints.append(trackLabel.topAnchor.constraint(equalTo: trackImage.bottomAnchor, constant: 3))
+        
+        // setup constraints for autorLabel
+        constraints.append(autorLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor))
+        constraints.append(autorLabel.topAnchor.constraint(equalTo: trackLabel.bottomAnchor, constant: 3))
+        
+        // setup constraints for next/past button
+        constraints.append(nextButton.leadingAnchor.constraint(equalTo: view.centerXAnchor, constant: 60))
+        constraints.append(nextButton.bottomAnchor.constraint(equalTo: musicSlider.topAnchor, constant: -20))
+        constraints.append(nextButton.heightAnchor.constraint(equalToConstant: 40))
+        constraints.append(nextButton.widthAnchor.constraint(equalToConstant: 40))
+        
+        constraints.append(pastButton.trailingAnchor.constraint(equalTo: view.centerXAnchor, constant: -60))
+        constraints.append(pastButton.bottomAnchor.constraint(equalTo: musicSlider.topAnchor, constant: -20))
+        constraints.append(pastButton.heightAnchor.constraint(equalToConstant: 40))
+        constraints.append(pastButton.widthAnchor.constraint(equalToConstant: 40))
+        
+        // setup constraints for track start/end timers
+        constraints.append(trackStartTimer.leadingAnchor.constraint(equalTo: musicSlider.leadingAnchor))
+        constraints.append(trackStartTimer.bottomAnchor.constraint(equalTo: musicSlider.topAnchor))
+        
+        constraints.append(trackEndTimer.trailingAnchor.constraint(equalTo: musicSlider.trailingAnchor))
+        constraints.append(trackEndTimer.bottomAnchor.constraint(equalTo: musicSlider.topAnchor))
+        
+        // setup constraints for trackImage
+        constraints.append(trackImage.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 20))
+        constraints.append(trackImage.centerXAnchor.constraint(equalTo: view.centerXAnchor))
+        constraints.append(trackImage.heightAnchor.constraint(equalToConstant: 350))
+        constraints.append(trackImage.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.89))
+        
+        // setup constraints for repeat button
+        constraints.append(repeatTrackButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 10))
+        constraints.append(repeatTrackButton.bottomAnchor.constraint(equalTo: trackStartTimer.topAnchor, constant: -20))
+        constraints.append(repeatTrackButton.heightAnchor.constraint(equalToConstant: 35))
+        constraints.append(repeatTrackButton.widthAnchor.constraint(equalToConstant: 40))
+        
+        // setup constraints for shuffle button
+        constraints.append(shuffleTracksButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -10))
+        constraints.append(shuffleTracksButton.bottomAnchor.constraint(equalTo: trackEndTimer.topAnchor, constant: -20))
+        constraints.append(shuffleTracksButton.heightAnchor.constraint(equalToConstant: 34))
+        constraints.append(shuffleTracksButton.widthAnchor.constraint(equalToConstant: 38))
+        
+        NSLayoutConstraint.activate(constraints)
     }
-    
 }
 
 //MARK: -- Setup Audio Player
@@ -395,5 +402,3 @@ extension PlayerViewController: LibraryViewControllerDelegate {
         playerButton.setBackgroundImage(UIImage(systemName: "pause.fill"), for: .normal)
     }
 }
-
-#Preview { TabBarViewController() }
