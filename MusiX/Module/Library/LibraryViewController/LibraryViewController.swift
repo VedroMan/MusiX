@@ -19,27 +19,18 @@ class LibraryViewController: UIViewController {
          (UIImage(systemName: "music.note"), "Ameli" , "Big Baby Tape"),
          (UIImage(systemName: "music.note"), "Lose Yourself" , "Eminem"),
          (UIImage(systemName: "music.note"), "Mockingbird" , "Eminem"),
-         (UIImage(systemName: "music.note"), "Let It Happen" , "Time Impala")
+         (UIImage(systemName: "music.note"), "Let It Happen" , "Tame Impala")
          
     ]
     
     // setup titleTopView
     private lazy var topTitleView: UIView = {
         let topView = UIView()
-        topView.backgroundColor = .clear
+        topView.backgroundColor = UIColor(white: 1, alpha: 0.9)
         topView.translatesAutoresizingMaskIntoConstraints = false
         return topView
     }()
     
-    // setup LibraryLabel
-    private lazy var libraryTitle: UILabel = {
-        let lbl = UILabel()
-        lbl.text = "Library"
-        lbl.textColor = .black
-        lbl.font = UIFont.systemFont(ofSize: 25, weight: .bold)
-        lbl.translatesAutoresizingMaskIntoConstraints = false
-        return lbl
-    }()
     
     // setup tableView
     private lazy var tableView: UITableView = {
@@ -73,7 +64,6 @@ private extension LibraryViewController {
     func setupConstraints() {
         view.addSubview(topTitleView)
         view.addSubview(tableView)
-        topTitleView.addSubview(libraryTitle)
         NSLayoutConstraint.activate([
             
             // setup constraints for libraryTitle
@@ -82,19 +72,12 @@ private extension LibraryViewController {
             topTitleView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             topTitleView.heightAnchor.constraint(equalToConstant: 100),
             
-            // setup constraints for libraryTitle
-            libraryTitle.topAnchor.constraint(equalTo: view.topAnchor, constant: 30),
-            libraryTitle.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 30),
-            libraryTitle.heightAnchor.constraint(equalToConstant: 40),
-            
             // setup constraints for tableView
-            tableView.topAnchor.constraint(equalTo: view.topAnchor, constant: 90),
+            tableView.topAnchor.constraint(equalTo: view.topAnchor, constant: 200),
             tableView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
             tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -60)
-            
-            // playlists...
             
         ])
     }
@@ -131,7 +114,7 @@ extension LibraryViewController: UITableViewDataSource, UITableViewDelegate {
     
     //height for row in section
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        65
+        60
     }
     
     //setup the footerView
