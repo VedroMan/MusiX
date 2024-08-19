@@ -56,6 +56,7 @@ private extension TabBarViewController {
         
         setupTapBarButton()
         setControllers()
+        
     }
     
     //create tap bar button
@@ -105,28 +106,28 @@ private extension TabBarViewController {
         NSLayoutConstraint.activate([
             //setup constraints for TabBarView
             tabBarView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            tabBarView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            tabBarView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: 40),
             tabBarView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            tabBarView.heightAnchor.constraint(equalToConstant: 60),
+            tabBarView.heightAnchor.constraint(equalToConstant: 90),
             
             //setup constraints for stack in TabBarView located in UIStackView(tabBarView)
             stack.leadingAnchor.constraint(equalTo: tabBarView.leadingAnchor, constant: 10),
             stack.trailingAnchor.constraint(equalTo: tabBarView.trailingAnchor, constant: -10),
-            stack.bottomAnchor.constraint(equalTo: tabBarView.bottomAnchor, constant: -10),
-            stack.topAnchor.constraint(equalTo: tabBarView.topAnchor, constant: 10)
+            stack.bottomAnchor.constraint(equalTo: tabBarView.bottomAnchor, constant: -35),
+            stack.topAnchor.constraint(equalTo: tabBarView.topAnchor)
         ])
     }
     
     //Setup ViewControllers
     func setControllers() {
-        let controllers = [
-        SearchViewController(),
-        LibraryViewController(),
-        PlayerViewController(),
-        SettingsViewController()
-        ]
+        let playerVC = PlayerViewController()
+        let libraryVC = LibraryViewController()
+        let searchVC = SearchViewController()
+        let settingsVC = SettingsViewController()
         
-        setViewControllers([controllers[0],controllers[1],controllers[2],controllers[3]], animated: true)
+        libraryVC.delegate = playerVC
+        
+        setViewControllers([searchVC, libraryVC, playerVC, settingsVC], animated: true)
     }
     
     //setup updateButtonColors
@@ -136,4 +137,4 @@ private extension TabBarViewController {
     }
 }
 
-#Preview { TabBarViewController() }
+#Preview {TabBarViewController()}
