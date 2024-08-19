@@ -8,9 +8,10 @@
 import UIKit
 
 class LibraryTableViewCell: UITableViewCell, CellProtocols {
+    
     static var reuseId: String = "LibraryTableViewCell"
     
-    private lazy var songIcon: UIImageView = {
+    private lazy var trackIcon: UIImageView = {
         let icon = UIImageView()
         icon.image = UIImage(systemName: "music.note")
         icon.tintColor = .black
@@ -18,7 +19,7 @@ class LibraryTableViewCell: UITableViewCell, CellProtocols {
         return icon
     }()
     
-    private lazy var songName: UILabel = {
+    private lazy var trackName: UILabel = {
         let name = UILabel()
         name.text = "title"
         name.font = .systemFont(ofSize: 19, weight: .medium)
@@ -46,33 +47,32 @@ class LibraryTableViewCell: UITableViewCell, CellProtocols {
     }
     
     private func setupCell() {
-        [songIcon, songName, autorName].forEach {
+        [trackIcon, trackName, autorName].forEach {
             $0.translatesAutoresizingMaskIntoConstraints = false
             contentView.addSubview($0)
         }
         backgroundColor = .white
         NSLayoutConstraint.activate([
             //setup constraints for songIcon
-            songIcon.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
-            songIcon.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
-            songIcon.heightAnchor.constraint(equalToConstant: 50),
-            songIcon.widthAnchor.constraint(equalToConstant: 50),
+            trackIcon.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
+            trackIcon.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
+            trackIcon.heightAnchor.constraint(equalToConstant: 50),
+            trackIcon.widthAnchor.constraint(equalToConstant: 50),
             
             //setup constraints for songName
-            songName.centerYAnchor.constraint(equalTo: songIcon.centerYAnchor, constant: -8),
-            songName.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 100),
-            songName.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -30),
+            trackName.centerYAnchor.constraint(equalTo: trackIcon.centerYAnchor, constant: -8),
+            trackName.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 100),
+            trackName.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -30),
             
             //setup constraints for autorTitle
-            autorName.centerYAnchor.constraint(equalTo: songIcon.centerYAnchor, constant: 12),
+            autorName.centerYAnchor.constraint(equalTo: trackIcon.centerYAnchor, constant: 12),
             autorName.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 100),
             autorName.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -30),
         ])
     }
-    func configure(contact: (image: UIImage?, title: String)) {
-        songIcon.image = contact.image
-        songName.text = contact.title
+    func configure(contact: (image: UIImage?, track: String, artist: String)) {
+        trackIcon.image = contact.image
+        trackName.text = contact.track
+        autorName.text = contact.artist
     }
 }
-
-#Preview { TabBarViewController() }

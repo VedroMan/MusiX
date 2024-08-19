@@ -9,42 +9,30 @@ import UIKit
 
 class LibraryViewController: UIViewController {
     
-    private lazy var libraryCell: [(image: UIImage?, title: String)] = [
-         (UIImage(systemName: "sun.max"), String("Sun")),
-         (UIImage(systemName: "moon"), String("Moon")),
-         (UIImage(systemName: "folder"), String("Folder")),
-         (UIImage(systemName: "square"), String("Square")),
-         (UIImage(systemName: "questionmark.square"), String("Question")),
-         (UIImage(systemName: "music.note"), String("Default")),
-         (UIImage(systemName: "square.dotted"), String("Dotted square")),
-         (UIImage(systemName: "sun.max"), String("Sun")),
-         (UIImage(systemName: "moon"), String("Moon")),
-         (UIImage(systemName: "folder"), String("Folder")),
-         (UIImage(systemName: "square"), String("Square")),
-         (UIImage(systemName: "questionmark.square"), String("Question")),
-         (UIImage(systemName: "music.note"), String("Default")),
-         (UIImage(systemName: "square.dotted"), String("Dotted square")),
+    private var tapGesture: UITapGestureRecognizer?
+    
+    weak var delegate: LibraryViewControllerDelegate?
+    
+    private lazy var libraryCell: [(image: UIImage?, track: String, artist: String)] = [
+         (UIImage(systemName: "music.note"), "haunted4" , "4elovek"),
+         (UIImage(systemName: "music.note"), "Baby, You're A Rich Man" , "The beatles"),
+         (UIImage(systemName: "music.note"), "Ameli" , "Big Baby Tape"),
+         (UIImage(systemName: "music.note"), "Lose Yourself" , "Eminem"),
+         (UIImage(systemName: "music.note"), "Mockingbird" , "Eminem"),
+         (UIImage(systemName: "music.note"), "Let It Happen" , "Tame Impala")
+         
     ]
     
-    //setup titleTopView
+    // setup titleTopView
     private lazy var topTitleView: UIView = {
         let topView = UIView()
-        topView.backgroundColor = .clear
+        topView.backgroundColor = UIColor(white: 1, alpha: 0.9)
         topView.translatesAutoresizingMaskIntoConstraints = false
         return topView
     }()
     
-    //setup LibraryLabel
-    private lazy var libraryTitle: UILabel = {
-        let lbl = UILabel()
-        lbl.text = "Library"
-        lbl.textColor = .black
-        lbl.font = UIFont.systemFont(ofSize: 25, weight: .bold)
-        lbl.translatesAutoresizingMaskIntoConstraints = false
-        return lbl
-    }()
     
-    //setup tableView
+    // setup tableView
     private lazy var tableView: UITableView = {
         let table = UITableView()
         table.register(LibraryTableViewCell.self, forCellReuseIdentifier: LibraryTableViewCell.reuseId)
@@ -72,31 +60,25 @@ private extension LibraryViewController {
         setupConstraints()
     }
     
-    //setupConstraints
+    // setupConstraints
     func setupConstraints() {
         view.addSubview(topTitleView)
         view.addSubview(tableView)
-        topTitleView.addSubview(libraryTitle)
         NSLayoutConstraint.activate([
-            //setup constraints for libraryTitle
+            
+            // setup constraints for libraryTitle
             topTitleView.topAnchor.constraint(equalTo: view.topAnchor),
             topTitleView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             topTitleView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             topTitleView.heightAnchor.constraint(equalToConstant: 100),
             
-            //setup constraints for libraryTitle
-            libraryTitle.topAnchor.constraint(equalTo: view.topAnchor, constant: 30),
-            libraryTitle.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 30),
-            libraryTitle.heightAnchor.constraint(equalToConstant: 40),
-            
-            //setup constraints for tableView
-            tableView.topAnchor.constraint(equalTo: view.topAnchor, constant: 90),
+            // setup constraints for tableView
+            tableView.topAnchor.constraint(equalTo: view.topAnchor, constant: 200),
             tableView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
             tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -60)
             
-            //playlists
         ])
     }
 }
@@ -123,9 +105,16 @@ extension LibraryViewController: UITableViewDataSource, UITableViewDelegate {
         return cell
     }
     
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+            let selectedTrack = libraryCell[indexPath.section]
+        delegate?.didSelectedSong(image: selectedTrack.image, track: selectedTrack.track, artist: selectedTrack.artist)
+        
+        print("select")
+        }
+    
     //height for row in section
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        65
+        60
     }
     
     //setup the footerView
@@ -140,5 +129,3 @@ extension LibraryViewController: UITableViewDataSource, UITableViewDelegate {
         return 0
     }
 }
-
-#Preview {TabBarViewController()}

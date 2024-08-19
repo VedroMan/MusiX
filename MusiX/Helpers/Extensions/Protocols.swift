@@ -6,7 +6,13 @@
 //
 
 import Foundation
+import UIKit
 
 protocol CellProtocols: AnyObject {
     static var reuseId: String { get set }
+}
+
+protocol LibraryViewControllerDelegate: AnyObject {
+    func didSelectedSong(image: UIImage?, track: String, artist: String)
+    
 }

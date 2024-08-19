@@ -11,14 +11,15 @@ import AVFoundation
 class PlayerViewController: UIViewController, AVAudioPlayerDelegate {
     
     var audioPlayer: AVAudioPlayer?
-    var songTimer: Timer?
+    var trackTimer: Timer?
     var currentTrackIndex: Int = 0
     
-    var tracks: [String?] = [
-        String("haunted4"),
-        String("The Beatles - Baby, You're A Rich Man")
-        
-    ]
+    private var repeatTapped = 0
+    private var shuffleTapped = 0
+    
+    var tracks: [(image: UIImage?, track: String, artist: String)] = []
+    
+    //MARK: -- UI Elements
     
     //setup play/pause button
     private lazy var playerButton: UIButton = {
@@ -51,24 +52,24 @@ class PlayerViewController: UIViewController, AVAudioPlayerDelegate {
     }()
     
     //setup trackLabel
-    private lazy var songLabel: UILabel = {
+    private lazy var trackLabel: UILabel = {
         let label = UILabel()
-        label.text = "Song name"
-        label.textColor = .red
-        label.font = UIFont.systemFont(ofSize: 20, weight: .medium)
+        label.text = "Track Name"
+        label.textColor = .black
+        label.font = UIFont.systemFont(ofSize: 18, weight: .bold)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
-//    //setup playerLabel
-//    private lazy var playerTitle: UILabel = {
-//        let lbl = UILabel()
-//        lbl.text = "Player"
-//        lbl.textColor = .black
-//        lbl.font = UIFont.systemFont(ofSize: 25, weight: .bold)
-//        lbl.translatesAutoresizingMaskIntoConstraints = false
-//        return lbl
-//    }()
+    // setup autor label
+    private lazy var autorLabel: UILabel = {
+        let label = UILabel()
+        label.text = "Autor Name"
+        label.textColor = AppColors.mainRed
+        label.font = .systemFont(ofSize: 15, weight: .regular)
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
     
     //setup slider
     private lazy var musicSlider: UISlider = {
@@ -86,21 +87,52 @@ class PlayerViewController: UIViewController, AVAudioPlayerDelegate {
     //setup trackImage
     private lazy var trackImage: UIImageView = {
         let image = UIImageView()
-        
+        image.image = UIImage(systemName: "music.note")
+        image.tintColor = AppColors.mainRed
+        image.backgroundColor = .systemGray4
+        image.contentMode = .scaleAspectFit
         image.translatesAutoresizingMaskIntoConstraints = false
         return image
     }()
     
-    // setup trackTimer
-    private lazy var trackTimer: UILabel = {
+    // setup trackTimers
+    private lazy var trackStartTimer: UILabel = {
         let label = UILabel()
-        label.text = "00:00 -- -00:00"
-        label.textColor = .red
+        label.text = "0:00"
+        label.textColor = .black
         label.font = UIFont.systemFont(ofSize: 15, weight: .regular)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
+    private lazy var trackEndTimer: UILabel = {
+        let label = UILabel()
+        label.text = "0:00"
+        label.textColor = .black
+        label.font = UIFont.systemFont(ofSize: 15, weight: .regular)
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+    
+    // setup repeat track button
+    private lazy var repeatTrackButton: UIButton = {
+        let btn = UIButton(type: .system)
+        btn.tintColor = .systemGray
+        btn.setBackgroundImage(UIImage(systemName: "repeat"), for: .normal)
+        btn.addTarget(self, action: #selector(repeatButtonTap), for: .touchUpInside)
+        btn.translatesAutoresizingMaskIntoConstraints = false
+        return btn
+    }()
+    
+    // setup shuffle track button
+    private lazy var shuffleTracksButton: UIButton = {
+        let btn = UIButton(type: .system)
+        btn.tintColor = .systemGray
+        btn.setBackgroundImage(UIImage(systemName: "shuffle"), for: .normal)
+        btn.addTarget(self, action: #selector(shuffleTracksButtonTap), for: .touchUpInside)
+        btn.translatesAutoresizingMaskIntoConstraints = false
+        return btn
+    }()
     override func viewDidLoad() {
         super.viewDidLoad()
         setup()
@@ -115,59 +147,87 @@ private extension PlayerViewController {
         setupAudioPlayer()
         
     }
-    //setupConstraints
+    
+    // setup constraints
     func setupConstraints() {
-        
-//        view.addSubview(playerTitle)
         view.addSubview(musicSlider)
         view.addSubview(playerButton)
-        view.addSubview(songLabel)
+        view.addSubview(trackLabel)
+        view.addSubview(autorLabel)
         view.addSubview(nextButton)
         view.addSubview(pastButton)
-        view.addSubview(trackTimer)
+        view.addSubview(trackStartTimer)
+        view.addSubview(trackEndTimer)
         view.addSubview(trackImage)
+        view.addSubview(repeatTrackButton)
+        view.addSubview(shuffleTracksButton)
         
-        NSLayoutConstraint.activate([
-            
-            // setup constraints for playerTitle
-//            playerTitle.topAnchor.constraint(equalTo: view.topAnchor, constant: 30),
-//            playerTitle.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 30),
-//            playerTitle.heightAnchor.constraint(equalToConstant: 40),
-            
-            // setup constraints for play/pause button
-            playerButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            playerButton.bottomAnchor.constraint(equalTo: musicSlider.topAnchor, constant: -20),
-            playerButton.heightAnchor.constraint(equalToConstant: 40),
-            playerButton.widthAnchor.constraint(equalToConstant: 35),
-            
-            // setup constraints for musicSlider
-            musicSlider.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -70),
-            musicSlider.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 15),
-            musicSlider.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -15),
-            musicSlider.heightAnchor.constraint(equalToConstant: 40),
-            
-            // setup constraints for trackLabel
-            songLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            songLabel.bottomAnchor.constraint(equalTo: playerButton.topAnchor, constant: -100),
-            
-            // setup constraints for next/past button
-            nextButton.leadingAnchor.constraint(equalTo: view.centerXAnchor, constant: 80),
-            nextButton.bottomAnchor.constraint(equalTo: musicSlider.topAnchor, constant: -20),
-            nextButton.heightAnchor.constraint(equalToConstant: 40),
-            nextButton.widthAnchor.constraint(equalToConstant: 40),
-            
-            pastButton.trailingAnchor.constraint(equalTo: view.centerXAnchor, constant: -80),
-            pastButton.bottomAnchor.constraint(equalTo: musicSlider.topAnchor, constant: -20),
-            pastButton.heightAnchor.constraint(equalToConstant: 40),
-            pastButton.widthAnchor.constraint(equalToConstant: 40),
-            
-            // setup constraints for trackTimer
-            trackTimer.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: -1),
-            trackTimer.bottomAnchor.constraint(equalTo: musicSlider.topAnchor, constant: 20)
-            
-        ])
+        // setup array of constraints
+        var constraints: [NSLayoutConstraint] = []
+        
+        // setup constraints for play/pause button
+        constraints.append(playerButton.centerXAnchor.constraint(equalTo: view.centerXAnchor))
+        constraints.append(playerButton.bottomAnchor.constraint(equalTo: musicSlider.topAnchor, constant: -15))
+        constraints.append(playerButton.heightAnchor.constraint(equalToConstant: 50))
+        constraints.append(playerButton.widthAnchor.constraint(equalToConstant: 45))
+        
+        // setup constraints for musicSlider
+        if UIScreen.main.bounds.height <= 667 { // iPhone SE
+            constraints.append(musicSlider.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -60))
+        } else { // iPhone with larger screens
+            constraints.append(musicSlider.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -90))
+        }
+        
+        constraints.append(musicSlider.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 15))
+        constraints.append(musicSlider.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -15))
+        constraints.append(musicSlider.heightAnchor.constraint(equalToConstant: 40))
+        
+        // setup constraints for trackLabel
+        constraints.append(trackLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor))
+        constraints.append(trackLabel.topAnchor.constraint(equalTo: trackImage.bottomAnchor, constant: 3))
+        
+        // setup constraints for autorLabel
+        constraints.append(autorLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor))
+        constraints.append(autorLabel.topAnchor.constraint(equalTo: trackLabel.bottomAnchor, constant: 3))
+        
+        // setup constraints for next/past button
+        constraints.append(nextButton.leadingAnchor.constraint(equalTo: view.centerXAnchor, constant: 60))
+        constraints.append(nextButton.bottomAnchor.constraint(equalTo: musicSlider.topAnchor, constant: -23))
+        constraints.append(nextButton.heightAnchor.constraint(equalToConstant: 35))
+        constraints.append(nextButton.widthAnchor.constraint(equalToConstant: 35))
+        
+        constraints.append(pastButton.trailingAnchor.constraint(equalTo: view.centerXAnchor, constant: -60))
+        constraints.append(pastButton.bottomAnchor.constraint(equalTo: musicSlider.topAnchor, constant: -23))
+        constraints.append(pastButton.heightAnchor.constraint(equalToConstant: 35))
+        constraints.append(pastButton.widthAnchor.constraint(equalToConstant: 35))
+        
+        // setup constraints for track start/end timers
+        constraints.append(trackStartTimer.leadingAnchor.constraint(equalTo: musicSlider.leadingAnchor))
+        constraints.append(trackStartTimer.bottomAnchor.constraint(equalTo: musicSlider.topAnchor, constant: 3))
+        
+        constraints.append(trackEndTimer.trailingAnchor.constraint(equalTo: musicSlider.trailingAnchor))
+        constraints.append(trackEndTimer.bottomAnchor.constraint(equalTo: musicSlider.topAnchor, constant: 3))
+        
+        // setup constraints for trackImage
+        constraints.append(trackImage.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 20))
+        constraints.append(trackImage.centerXAnchor.constraint(equalTo: view.centerXAnchor))
+        constraints.append(trackImage.heightAnchor.constraint(equalToConstant: 350))
+        constraints.append(trackImage.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.93))
+        
+        // setup constraints for repeat button
+        constraints.append(repeatTrackButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 10))
+        constraints.append(repeatTrackButton.bottomAnchor.constraint(equalTo: trackStartTimer.topAnchor, constant: -6))
+        constraints.append(repeatTrackButton.heightAnchor.constraint(equalToConstant: 35))
+        constraints.append(repeatTrackButton.widthAnchor.constraint(equalToConstant: 40))
+        
+        // setup constraints for shuffle button
+        constraints.append(shuffleTracksButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -10))
+        constraints.append(shuffleTracksButton.bottomAnchor.constraint(equalTo: trackEndTimer.topAnchor, constant: -9))
+        constraints.append(shuffleTracksButton.heightAnchor.constraint(equalToConstant: 34))
+        constraints.append(shuffleTracksButton.widthAnchor.constraint(equalToConstant: 38))
+        
+        NSLayoutConstraint.activate(constraints)
     }
-    
 }
 
 //MARK: -- Setup Audio Player
@@ -176,13 +236,16 @@ extension PlayerViewController {
         
         guard currentTrackIndex >= 0, currentTrackIndex < tracks.count else { return }
         guard let trackName = tracks[safe: currentTrackIndex] else { return }
-        guard let url = Bundle.main.url(forResource: trackName, withExtension: "mp3") else { return }
+        guard let url = Bundle.main.url(forResource: trackName.track, withExtension: "mp3") else { return }
         
         do {
             audioPlayer = try AVAudioPlayer(contentsOf: url)
             audioPlayer?.prepareToPlay()
             audioPlayer?.delegate = self
-            songLabel.text = trackName
+            trackLabel.text = trackName.track
+            autorLabel.text = trackName.artist
+            updateTrackTimer()
+            
         } catch {
             print("Error initializing player \(error)")
         }
@@ -205,32 +268,43 @@ extension PlayerViewController {
 private extension PlayerViewController {
     
     //setup play/pause music function
-    @objc private func playPauseMusic() {
+    @objc func playPauseMusic() {
         if audioPlayer?.isPlaying == true {
             audioPlayer?.pause()
             playerButton.setBackgroundImage(UIImage(systemName: "play.fill"), for: .normal)
-            stopSongTimer()
+            stopTrackTimer()
             
         } else {
             
             audioPlayer?.play()
             playerButton.setBackgroundImage(UIImage(systemName: "pause.fill"), for: .normal)
-            startSongTimer()
+            startTrackTimer()
             
         }
     }
     
-    @objc private func sliderValueChanged(_ sender: UISlider) {
+    @objc func sliderValueChanged(_ sender: UISlider) {
         audioPlayer?.currentTime = TimeInterval(sender.value) * audioPlayer!.duration
+        updateTrackTimer()
     }
     
-    @objc private func updateSliderValue() {
+    @objc func updateTrackTimer() {
+        
         guard let audioPlayer = audioPlayer else { return }
         musicSlider.value = Float(audioPlayer.currentTime / audioPlayer.duration)
+        let startTime = audioPlayer.currentTime
+        let endTime = audioPlayer.duration - startTime
+        let startTimeString = String(format: "%01d:%02d", Int(startTime) / 60, Int(startTime) % 60)
+        let endTimeString = String(format: "%01d:%02d", Int(endTime) / 60, Int(endTime) % 60)
+        print(#function)
+        
+        // setup track time
+        trackStartTimer.text = startTimeString
+        trackEndTimer.text = endTimeString
     }
     
-    //setup next/past button functions
-    @objc private func nextButtonTap(_ sender: UISlider) {
+    // setup next/past track button functions
+    @objc func nextButtonTap() {
         if audioPlayer?.isPlaying == true {
             
             currentTrackIndex = (currentTrackIndex + 1) % tracks.count
@@ -245,7 +319,7 @@ private extension PlayerViewController {
         }
     }
     
-    @objc private func pastButtonTap() {
+    @objc func pastButtonTap() {
         if audioPlayer?.isPlaying == true {
             
             currentTrackIndex = (currentTrackIndex - 1) % tracks.count
@@ -260,16 +334,73 @@ private extension PlayerViewController {
         }
     }
     
-    private func startSongTimer() {
-        songTimer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(updateSliderValue), userInfo: nil, repeats: true)
+    @objc func repeatButtonTap() {
+        repeatTapped += 1
+        
+        switch repeatTapped {
+        case 1:
+            repeatTrackButton.tintColor = AppColors.mainRed
+            repeatTrackButton.setBackgroundImage(UIImage(systemName: "repeat"), for: .normal)
+            //functional
+            
+        case 2:
+            repeatTrackButton.tintColor = AppColors.mainRed
+            repeatTrackButton.setBackgroundImage(UIImage(systemName: "repeat.1"), for: .normal)
+            //functional
+            
+        case 3:
+            repeatTrackButton.tintColor = .systemGray
+            repeatTrackButton.setBackgroundImage(UIImage(systemName: "repeat"), for: .normal)
+            repeatTapped = 0
+        default:
+            break
+        }
     }
     
-    private func stopSongTimer() {
-        songTimer?.invalidate()
-        songTimer = nil
+    @objc func shuffleTracksButtonTap() {
+        shuffleTapped += 1
+        
+        switch shuffleTapped {
+        case 1:
+            shuffleTracksButton.tintColor = AppColors.mainRed
+            shuffleTracksButton.setBackgroundImage(UIImage(systemName: "shuffle"), for: .normal)
+            //functional
+            
+        case 2:
+            shuffleTracksButton.tintColor = .systemGray
+            shuffleTracksButton.setBackgroundImage(UIImage(systemName: "shuffle"), for: .normal)
+            shuffleTapped = 0
+            
+        default:
+            break
+        }
+    }
+    
+    func startTrackTimer() {
+        trackTimer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(updateTrackTimer), userInfo: nil, repeats: true)
+    }
+    
+    func stopTrackTimer() {
+        trackTimer?.invalidate()
+        trackTimer = nil
         
     }
 }
 
-#Preview { PlayerViewController() }
-#Preview { TabBarViewController() }
+//MARK: -- Setup Delegate
+extension PlayerViewController: LibraryViewControllerDelegate {
+    
+    // setup delegate
+    func didSelectedSong(image: UIImage?, track: String, artist: String) {
+        let newTrack = (image: image, track: track, artist: artist)
+        
+        tracks.append(newTrack)
+        currentTrackIndex = tracks.count - 1
+        setupAudioPlayer()
+        audioPlayer?.play()
+        startTrackTimer()
+        playerButton.setBackgroundImage(UIImage(systemName: "pause.fill"), for: .normal)
+    }
+}
+
+#Preview {TabBarViewController()}
