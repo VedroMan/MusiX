@@ -21,6 +21,13 @@ class PlayerViewController: UIViewController, AVAudioPlayerDelegate {
     
     //MARK: -- UI Elements
     
+    // setup trackElementsView
+    private lazy var trackElements: PlayerElementsView = {
+        let view = PlayerElementsView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
+    
     //setup play/pause button
     private lazy var playerButton: UIButton = {
         let playBtn = UIButton(type: .system)
@@ -150,20 +157,24 @@ private extension PlayerViewController {
     
     // setup constraints
     func setupConstraints() {
+        
+        view.addSubview(trackElements)
         view.addSubview(musicSlider)
         view.addSubview(playerButton)
-        view.addSubview(trackLabel)
-        view.addSubview(autorLabel)
         view.addSubview(nextButton)
         view.addSubview(pastButton)
         view.addSubview(trackStartTimer)
         view.addSubview(trackEndTimer)
-        view.addSubview(trackImage)
         view.addSubview(repeatTrackButton)
         view.addSubview(shuffleTracksButton)
         
         // setup array of constraints
         var constraints: [NSLayoutConstraint] = []
+        
+        constraints.append(trackElements.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 10))
+        constraints.append(trackElements.leadingAnchor.constraint(equalTo: view.leadingAnchor))
+        constraints.append(trackElements.trailingAnchor.constraint(equalTo: view.trailingAnchor))
+        constraints.append(trackElements.bottomAnchor.constraint(equalTo: playerButton.topAnchor))
         
         // setup constraints for play/pause button
         constraints.append(playerButton.centerXAnchor.constraint(equalTo: view.centerXAnchor))
@@ -181,14 +192,6 @@ private extension PlayerViewController {
         constraints.append(musicSlider.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 15))
         constraints.append(musicSlider.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -15))
         constraints.append(musicSlider.heightAnchor.constraint(equalToConstant: 40))
-        
-        // setup constraints for trackLabel
-        constraints.append(trackLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor))
-        constraints.append(trackLabel.topAnchor.constraint(equalTo: trackImage.bottomAnchor, constant: 3))
-        
-        // setup constraints for autorLabel
-        constraints.append(autorLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor))
-        constraints.append(autorLabel.topAnchor.constraint(equalTo: trackLabel.bottomAnchor, constant: 3))
         
         // setup constraints for next/past button
         constraints.append(nextButton.leadingAnchor.constraint(equalTo: view.centerXAnchor, constant: 60))
@@ -208,12 +211,6 @@ private extension PlayerViewController {
         constraints.append(trackEndTimer.trailingAnchor.constraint(equalTo: musicSlider.trailingAnchor))
         constraints.append(trackEndTimer.bottomAnchor.constraint(equalTo: musicSlider.topAnchor, constant: 3))
         
-        // setup constraints for trackImage
-        constraints.append(trackImage.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 20))
-        constraints.append(trackImage.centerXAnchor.constraint(equalTo: view.centerXAnchor))
-        constraints.append(trackImage.heightAnchor.constraint(equalToConstant: 350))
-        constraints.append(trackImage.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.93))
-        
         // setup constraints for repeat button
         constraints.append(repeatTrackButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 10))
         constraints.append(repeatTrackButton.bottomAnchor.constraint(equalTo: trackStartTimer.topAnchor, constant: -6))
@@ -232,7 +229,7 @@ private extension PlayerViewController {
 
 //MARK: -- Setup Audio Player
 extension PlayerViewController {
-    private func setupAudioPlayer() {
+    func setupAudioPlayer() {
         
         guard currentTrackIndex >= 0, currentTrackIndex < tracks.count else { return }
         guard let trackName = tracks[safe: currentTrackIndex] else { return }
@@ -242,10 +239,11 @@ extension PlayerViewController {
             audioPlayer = try AVAudioPlayer(contentsOf: url)
             audioPlayer?.prepareToPlay()
             audioPlayer?.delegate = self
-            trackLabel.text = trackName.track
-            autorLabel.text = trackName.artist
+            trackElements.updateTrackImage(with: trackImage.image)
+            trackElements.updateTrackName(to: trackName.track)
+            trackElements.updateArtistName(to: trackName.artist)
             updateTrackTimer()
-            
+            audioPlayer?.play()
         } catch {
             print("Error initializing player \(error)")
         }
@@ -402,5 +400,3 @@ extension PlayerViewController: LibraryViewControllerDelegate {
         playerButton.setBackgroundImage(UIImage(systemName: "pause.fill"), for: .normal)
     }
 }
-
-#Preview {TabBarViewController()}
