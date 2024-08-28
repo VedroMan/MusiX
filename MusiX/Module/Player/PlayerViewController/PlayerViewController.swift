@@ -2,7 +2,7 @@
 //  PlayerViewController.swift
 //  MusiX
 //
-//  Created by Timofey on 14.07.24.
+//  Created by Tim Zykov on 14.07.24.
 //
 
 import UIKit

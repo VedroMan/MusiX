@@ -32,6 +32,8 @@
 		226E11202C443058006CC463 /* PlayerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 226E111F2C443058006CC463 /* PlayerViewController.swift */; };
 		228733B92C46EC37000555BD /* LibraryTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 228733B82C46EC37000555BD /* LibraryTableViewCell.swift */; };
 		228733BB2C46EE23000555BD /* Protocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 228733BA2C46EE23000555BD /* Protocols.swift */; };
+		588937F92C76A05400957C72 /* SettingsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 588937F82C76A05400957C72 /* SettingsTableViewCell.swift */; };
+		58A5AA9C2C77F441006F3F0E /* PlayerElementsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58A5AA9B2C77F441006F3F0E /* PlayerElementsView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -81,6 +83,8 @@
 		226E111F2C443058006CC463 /* PlayerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerViewController.swift; sourceTree = "<group>"; };
 		228733B82C46EC37000555BD /* LibraryTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryTableViewCell.swift; sourceTree = "<group>"; };
 		228733BA2C46EE23000555BD /* Protocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Protocols.swift; sourceTree = "<group>"; };
+		588937F82C76A05400957C72 /* SettingsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsTableViewCell.swift; sourceTree = "<group>"; };
+		58A5AA9B2C77F441006F3F0E /* PlayerElementsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerElementsView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -112,6 +116,7 @@
 		221EEB9A2C3E88F600A49464 /* Settings */ = {
 			isa = PBXGroup;
 			children = (
+				588937F72C76A04000957C72 /* SettingsTableViewCell */,
 				226E11162C442F12006CC463 /* SettingsViewController */,
 			);
 			path = Settings;
@@ -278,6 +283,7 @@
 		226E111D2C442FF3006CC463 /* Player */ = {
 			isa = PBXGroup;
 			children = (
+				58A5AA9A2C77F41C006F3F0E /* PlayerElements */,
 				226E111E2C443042006CC463 /* PlayerViewController */,
 			);
 			path = Player;
@@ -318,6 +324,22 @@
 				22238DAE2C58475D005F9EA1 /* Let It Happen.mp3 */,
 			);
 			path = musicLibrary;
+			sourceTree = "<group>";
+		};
+		588937F72C76A04000957C72 /* SettingsTableViewCell */ = {
+			isa = PBXGroup;
+			children = (
+				588937F82C76A05400957C72 /* SettingsTableViewCell.swift */,
+			);
+			path = SettingsTableViewCell;
+			sourceTree = "<group>";
+		};
+		58A5AA9A2C77F41C006F3F0E /* PlayerElements */ = {
+			isa = PBXGroup;
+			children = (
+				58A5AA9B2C77F441006F3F0E /* PlayerElementsView.swift */,
+			);
+			path = PlayerElements;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -462,7 +484,9 @@
 				226E11202C443058006CC463 /* PlayerViewController.swift in Sources */,
 				228733BB2C46EE23000555BD /* Protocols.swift in Sources */,
 				226E111C2C442FBF006CC463 /* SearchViewController.swift in Sources */,
+				588937F92C76A05400957C72 /* SettingsTableViewCell.swift in Sources */,
 				226E11152C442E2B006CC463 /* LibraryViewController.swift in Sources */,
+				58A5AA9C2C77F441006F3F0E /* PlayerElementsView.swift in Sources */,
 				221F126A2C45544C0042D1A9 /* UIColors+Extensions.swift in Sources */,
 				223DCA922C3DE6620082A5B1 /* AppDelegate.swift in Sources */,
 				228733B92C46EC37000555BD /* LibraryTableViewCell.swift in Sources */,

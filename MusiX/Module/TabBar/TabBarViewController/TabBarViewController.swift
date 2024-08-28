@@ -2,7 +2,7 @@
 //  TabBarViewController.swift
 //  MusiX
 //
-//  Created by Timofey on 10.07.24.
+//  Created by Tim Zykov on 10.07.24.
 //
 
 import UIKit
@@ -128,6 +128,8 @@ private extension TabBarViewController {
         libraryVC.delegate = playerVC
         
         setViewControllers([searchVC, libraryVC, playerVC, settingsVC], animated: true)
+        
+        print("delegate")
     }
     
     //setup updateButtonColors
@@ -136,5 +138,3 @@ private extension TabBarViewController {
         selectedButton.tintColor = AppColors.mainRed
     }
 }
-
-#Preview {TabBarViewController()}

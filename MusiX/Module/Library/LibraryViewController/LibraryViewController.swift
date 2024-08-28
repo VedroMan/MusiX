@@ -2,7 +2,7 @@
 //  LibraryViewController.swift
 //  MusiX
 //
-//  Created by Timofey on 14.07.24.
+//  Created by Tim Zykov on 14.07.24.
 //
 
 import UIKit
@@ -31,6 +31,17 @@ class LibraryViewController: UIViewController {
         return topView
     }()
     
+    // setup goToPlaylistsButton
+    private lazy var goToPlaylistsButton: UIButton = {
+        let button = UIButton()
+        button.setTitle("Playlists", for: .normal)
+        button.setTitleColor(.white, for: .highlighted)
+        button.titleLabel?.font = .systemFont(ofSize: 20, weight: .bold)
+        button.backgroundColor = .systemPink
+        button.layer.cornerRadius = 15
+        button.translatesAutoresizingMaskIntoConstraints = false
+        return button
+    }()
     
     // setup tableView
     private lazy var tableView: UITableView = {
@@ -64,6 +75,7 @@ private extension LibraryViewController {
     func setupConstraints() {
         view.addSubview(topTitleView)
         view.addSubview(tableView)
+        view.addSubview(goToPlaylistsButton)
         NSLayoutConstraint.activate([
             
             // setup constraints for libraryTitle
@@ -77,7 +89,14 @@ private extension LibraryViewController {
             tableView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
             tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -60)
+            tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -60),
+            
+            // setup constraints for goToPlaylistsButton
+            goToPlaylistsButton.heightAnchor.constraint(equalToConstant: 40),
+            goToPlaylistsButton.widthAnchor.constraint(equalToConstant: 200),
+            goToPlaylistsButton.bottomAnchor.constraint(equalTo: tableView.topAnchor, constant: -30),
+            goToPlaylistsButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
+
             
         ])
     }
@@ -106,15 +125,25 @@ extension LibraryViewController: UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-            let selectedTrack = libraryCell[indexPath.section]
-        delegate?.didSelectedSong(image: selectedTrack.image, track: selectedTrack.track, artist: selectedTrack.artist)
-        
-        print("select")
+        let selectedTrack = libraryCell[indexPath.section]
+                
+                let playerVC = PlayerViewController()
+                
+                // Передаем данные через делегат
+                delegate?.didSelectedSong(image: selectedTrack.image, track: selectedTrack.track, artist: selectedTrack.artist)
+                
+                // Добавляем выбранный трек в массив треков в PlayerViewController
+                playerVC.tracks.append((image: selectedTrack.image, track: selectedTrack.track, artist: selectedTrack.artist))
+                playerVC.currentTrackIndex = playerVC.tracks.count - 1
+                playerVC.setupAudioPlayer()
+                navigationController?.pushViewController(playerVC, animated: true)
+                
+                print("Track selected: \(selectedTrack.track)")
         }
     
     //height for row in section
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        60
+        55
     }
     
     //setup the footerView
